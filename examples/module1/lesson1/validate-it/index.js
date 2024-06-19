@@ -1,34 +1,31 @@
-function validator() {
-  const input = document.getElementById('input');
-  const button = document.getElementById('button');
-  const button2 = document.getElementById('button2');
+
+function validateInputValue() {
+  const MINIMUM_INPUT_VALUE = 0;
+  const MAXIMUM_INPUT_VALUE = 100;
+  const INPUT_VALUE_DIVIDER = 2;
+
+  const validationInput = document.getElementById('validationInput');
+  const validateButton = document.getElementById('validateButton');
+  const clearButton = document.getElementById('clearButton');
   const result = document.getElementById('result');
 
-  button.addEventListener('click', () => {
-    if (input.value) {
-      if (Number.isInteger(input.value)) {
-        if (
-          Number(input.value) > 0 &&
-          Number(input.value) < 100 &&
-          Number(input.value) % 2 === 0
-        ) {
-          result.innerHTML = 'Valid';
-        } else {
-          result.innerHTML = 'Invalid';
-        }
+  const isInteger = value => value && Number.isInteger(parseFloat(value))
+  const isHigherThan = value => value > MINIMUM_INPUT_VALUE;
+  const isLowerThan = value => value < MAXIMUM_INPUT_VALUE;
+  const isEven = value => value % INPUT_VALUE_DIVIDER === 0;
+
+  validateButton.addEventListener('click', () => {
+    if (isInteger(validationInput.value) && isHigherThan(validationInput.value) && isEven(validationInput.value) && isLowerThan(validationInput.value)) {
         result.innerHTML = 'Valid';
-      } else {
-        result.innerHTML = 'Invalid';
-      }
     } else {
       result.innerHTML = 'Invalid';
     }
   });
 
-  button2.addEventListener('click', () => {
-    input.value = '';
+  clearButton.addEventListener('click', () => {
+    validationInput.value = '';
     result.innerHTML = '';
   });
 }
 
-validator();
+validateInputValue();
