@@ -27,7 +27,7 @@ if (projectPaths[0].includes('angular')) {
     configFile: false,
     root: projectPaths[0],
     server: {
-      port: 3000,
+      port: 3100,
     },
     plugins: [
       react(),
