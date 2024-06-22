@@ -1,14 +1,27 @@
-import React, { useState } from 'react';
-import { f1, f2, f3, f4 } from './functions';
+import { sum, subtract, multiply, divide } from './calculator/functions';
+import { CalculatorButton } from './calculator/CalculatorButton';
+import { useCalculator } from './calculator/useCalculator';
 
 const App = () => {
-  const [numA, setNumA] = useState<number>(0);
-  const [numB, setNumB] = useState<number>(0);
-  const [numC, setNumC] = useState<number | string>(0);
+  const { firstInputValue, setFirstInputValue, secondInputValue, setSecondInputValue, handleOperation, error, result } = useCalculator()
 
-  const doWork = (func: (a: number, b: number) => number) => {
-    setNumC(func(numA, numB));
-  };
+  const calculatorOperators =  [{
+    id: 1,
+    label: '+',
+    onClick: () => handleOperation(sum)
+  }, {
+    id: 2,
+    label: '-',
+    onClick: () => handleOperation(subtract)
+  }, {
+    id: 3,
+    label: '*',
+    onClick: () => handleOperation(multiply)
+  }, {
+    id: 4,
+    label: '/',
+    onClick: () => handleOperation(divide)
+  }]
 
   return (
     <div>
@@ -16,43 +29,26 @@ const App = () => {
         <input
           type="number"
           className="rounded-md shadow-md p-4"
-          value={numA}
-          onChange={(e) => setNumA(parseFloat(e.target.value))}
+          value={firstInputValue}
+          onChange={(e) => setFirstInputValue(parseFloat(e.target.value))}
         />
         <input
           type="number"
           className="rounded-md shadow-md p-4"
-          value={numB}
-          onChange={(e) => setNumB(parseFloat(e.target.value))}
+          value={secondInputValue}
+          onChange={(e) => setSecondInputValue(parseFloat(e.target.value))}
         />
       </div>
       <div className="grid grid-cols-4 gap-x-4 my-4">
-        <button
-          className="bg-blue-200 px-2 py-4 text-lg hover:bg-blue-500 hover:text-white rounded-md"
-          onClick={() => doWork(f1)}
-        >
-          +
-        </button>
-        <button
-          className="bg-blue-200 px-2 py-4 text-lg hover:bg-blue-500 hover:text-white rounded-md"
-          onClick={() => doWork(f2)}
-        >
-          -
-        </button>
-        <button
-          className="bg-blue-200 px-2 py-4 text-lg hover:bg-blue-500 hover:text-white rounded-md"
-          onClick={() => doWork(f3)}
-        >
-          *
-        </button>
-        <button
-          className="bg-blue-200 px-2 py-4 text-lg hover:bg-blue-500 hover:text-white rounded-md"
-          onClick={() => doWork(f4)}
-        >
-          /
-        </button>
+        {calculatorOperators.map(({ id, label, onClick }) => (
+          <CalculatorButton
+            key={id}
+            label={label}
+            onClick={onClick}
+          />
+        ))}
       </div>
-      <div>Result: {numC}</div>
+      <div>{error ? error : `Result: ${result}`}</div>
     </div>
   );
 };
