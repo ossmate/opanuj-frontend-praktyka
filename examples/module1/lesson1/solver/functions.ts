@@ -1,13 +1,15 @@
-export function f1(a, b) {
-  return a + b;
-}
-export function f2(a, b) {
-  return a - b;
-}
-export function f3(a, b) {
-  return a * b;
+export function sum(firstValue: number, secondValue: number): number {
+  return firstValue + secondValue;
 }
 
-export function f4(a, b) {
-  return a / b;
+export function subtract(firstValue: number, secondValue: number): number {
+  return firstValue - secondValue;
+}
+
+export function multiply(firstValue: number, secondValue: number): number {
+  return firstValue * secondValue;
+}
+
+export function divide(firstValue: number, secondValue: number): number {
+  return firstValue / secondValue;
 }
