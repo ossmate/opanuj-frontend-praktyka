@@ -3,7 +3,7 @@ export function NameField({
   setName,
 }: {
   name: string;
-  setName: React.Dispatch<React.SetStateAction<string>>;
+  setName: (name: string) => void;
 }) {
   return (
     <label className="flex flex-col">
