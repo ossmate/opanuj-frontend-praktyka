@@ -1,54 +1,32 @@
-import { useMemo, useState } from "react";
 import "./App.css";
-import { useGetCountries } from "./hooks/useGetCountries";
-import { CountryCard } from "./components/CountryCard";
-import { CountryFilterSelect } from "./components/CountryFilterSelect";
-import { CountrySearchInput } from "./components/CountrySearchInput";
-import type { FilterTypes, SortByTypes } from "./types";
-import { CountryCardContainer } from "./containers/CountryCardContainer";
-import { useDebounce } from "./hooks/useDebounce";
-import { SortCountriesSelect } from "./components/SortCountriesSelect";
+
+import { useState } from "react";
+import { CountriesSearch } from "./containers/CountriesSearch";
+import { CountriesGuesser } from "./containers/CountriesGuesser";
+
+enum AppType {
+  COUNTRY_SEARCH = 'COUNTRY_SEARCH',
+  COUNTRY_GUESSER = 'COUNTRY_GUESSER',
+}
+
+const appTypeComponents = {
+  [AppType.COUNTRY_SEARCH]: <CountriesSearch />,
+  [AppType.COUNTRY_GUESSER]: <CountriesGuesser />
+};
 
 function App() {
-  const [value, setValue] = useState<string>("")
-  const [filterType, setFilterType] = useState<FilterTypes>("name")
-  const [sortBy, setSortBy] = useState<SortByTypes>("default")
-
-  const debouncedValue = useDebounce(value, 500);
-
-  const { countries, requestResult } = useGetCountries({ filter: filterType, value: debouncedValue, sortBy })
-
-  const handleSetFilterType = (newFilterType: FilterTypes) => {
-    if (newFilterType === "all") {
-      setValue("");
-    }
-    setFilterType(newFilterType);
-  };
+  const [appType, setAppType] = useState(AppType.COUNTRY_SEARCH);
 
   return (
     <div className="p-4">
-      <CountryFilterSelect
-        filterType={filterType}
-        handleSetFilterType={handleSetFilterType}
-      />
+      <div className="flex gap-4">
+        <button onClick={() => setAppType(AppType.COUNTRY_SEARCH)}>COUNTRY SEARCH</button>
+        <button onClick={() => setAppType(AppType.COUNTRY_GUESSER)}>COUNTRY GUESSER</button>
+      </div>
 
-      <CountrySearchInput
-        value={value}
-        setValue={setValue}
-        isDisabled={filterType === "all"}
-      />
-
-      <SortCountriesSelect
-        sortBy={sortBy}
-        setSortBy={setSortBy}
-        isDisabled={requestResult.status !== "resolved"}
-      />
-
-      <CountryCardContainer requestResult={requestResult}>
-        {countries.map((country) => (
-          <CountryCard key={country.id} {...country} />
-        ))}
-      </CountryCardContainer>
+      <div className="mt-5">
+        {appTypeComponents[appType] || <div>Error</div>}
+      </div>
     </div>
   );
 }
