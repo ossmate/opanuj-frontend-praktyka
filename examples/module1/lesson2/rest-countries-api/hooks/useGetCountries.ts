@@ -23,6 +23,8 @@ export const useGetCountries = ({ filter, value, sortBy }: UseGetCountriesParams
 
       if (filter !== "all" && value === "") return
 
+      if (filter === "all" && value) return
+
       try {
         setRequestResult({ status: "loading", error: null });
         const response = await fetch(`${apiURL}${`/${filter}/${value}`}`);

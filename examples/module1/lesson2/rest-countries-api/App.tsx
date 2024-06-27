@@ -18,13 +18,12 @@ function App() {
 
   const { countries, requestResult } = useGetCountries({ filter: filterType, value: debouncedValue, sortBy })
 
-  const handleSetFilterType = (value: FilterTypes) => {
-    if (value === "all") {
-      setValue("")
+  const handleSetFilterType = (newFilterType: FilterTypes) => {
+    if (newFilterType === "all") {
+      setValue("");
     }
-
-    setFilterType(value)
-  }
+    setFilterType(newFilterType);
+  };
 
   return (
     <div className="p-4">
