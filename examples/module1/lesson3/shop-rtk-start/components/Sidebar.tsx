@@ -1,11 +1,10 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
 import { Link } from 'react-router-dom';
 
 import { FiTrash2 } from 'react-icons/fi';
 import { IoMdClose } from 'react-icons/io';
 
-import { CartContext } from '../contexts/CartContext';
 import { useAppDispatch, useAppSelector } from '../hooks/rtk';
 import {
   clearCart,
@@ -21,7 +20,6 @@ interface SidebarProps {
 }
 
 const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }: SidebarProps) => {
-  const { total } = useContext(CartContext);
   const dispatch = useAppDispatch();
   const cartItems = useAppSelector(selectCartItems);
   const itemAmount = useAppSelector(selectItemAmount);
@@ -39,7 +37,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }: SidebarProps) => {
         </div>
         <div
           onClick={() => setIsSidebarOpen(false)}
-          className="cursor-poniter w-8 h-8 flex justify-center items-center"
+          className="cursor-pointer w-8 h-8 flex justify-center items-center"
         >
           <IoMdClose className="text-2xl cursor-pointer" />
         </div>

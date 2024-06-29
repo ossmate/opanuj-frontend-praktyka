@@ -76,7 +76,7 @@ export const selectItemAmount = (state: RootState) =>
   }, 0);
 export const selectTotalPrice = (state: RootState) =>
   state.cart.items.reduce((acc, curr) => {
-    return acc + curr.price
+    return acc + curr.price * curr.amount
   }, 0)
 
 
