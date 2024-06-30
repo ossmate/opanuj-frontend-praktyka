@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useMemo, useState } from 'react';
 import { Product } from '../types/Product';
 
 type ProductContextType = {
@@ -21,8 +21,10 @@ const ProductProvider = ({ children }: { children: React.ReactNode }) => {
     fetchProducts();
   }, []);
 
+    const value = useMemo(() => ({ products, setProducts }), [products]);
+
   return (
-    <ProductContext.Provider value={{ products }}>
+    <ProductContext.Provider value={{ ...value }}>
       {children}
     </ProductContext.Provider>
   );
